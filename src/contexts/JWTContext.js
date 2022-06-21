@@ -113,51 +113,23 @@ export const JWTProvider = ({ children }) => {
     init();
   }, []);
 
-  // const login = async (email, password) => {
-  //   if (window.localStorage.getItem('users') !== undefined && window.localStorage.getItem('users') !== null) {
-  //     const localUsers = window.localStorage.getItem('users');
-  //     users = JSON.parse(localUsers);
 
-  //   }
-  //   const userFound = users.find((_user) => _user.email === email);
-  //   if (!userFound || userFound.password !== password) {
-  //     return;
-  //   }
-  //   const serviceToken = jwt.sign({ userId: userFound.id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_TIME });
-  //   const user = {
-  //     id: userFound.id,
-  //     email: userFound.email,
-  //     name: userFound.name
-  //   };
-
-  //   setSession(serviceToken);
-  //   console.log('users')
-  //   console.log(serviceToken)
-  //   dispatch({
-  //     type: LOGIN,
-  //     payload: {
-  //       isLoggedIn: true,
-  //       user
-  //     }
-  //   });
-  // };
 
       const login = async (email, password) => {
-            const response = await axios.post('/auth/login/', {
+            const response = await axios.post('/api/auth/login/', {
               email,
               password,
-
             });
                 console.log(response)
                 const data = await response.data
 				if (response.status === 200) {
 					setAuthTokens(data)
-					setUser(jwt_decode(data.access_token))
+					setUser(jwt_decode(data.access))
 					setIsLoggedIn(true)
 					localStorage.setItem('authTokens', JSON.stringify(data))
 					localStorage.setItem('loggedStatus', true)
 					console.log('Real User', data.user)
-					console.log('Decoded Data', jwt_decode(data.access_token))
+					console.log('Decoded Data', jwt_decode(data.access))
 					dispatch({
 						type: LOGIN,
 						payload: {
@@ -168,15 +140,16 @@ export const JWTProvider = ({ children }) => {
 				}
             };
 
-  const register = async (email, password, firstName, lastName) => {
+  const register = async (email, password, first_name, last_name) => {
     // todo: this flow need to be recode as it not verified
+    const username = first_name
     const id = chance.bb_pin();
-    const response = await axios.post('/api/account/register', {
-      id,
+    const response = await axios.post('/api/auth/register/', {
       email,
       password,
-      firstName,
-      lastName
+      first_name,
+      last_name,
+      username
     });
     let users = response.data;
 
@@ -185,7 +158,6 @@ export const JWTProvider = ({ children }) => {
       users = [
         ...JSON.parse(localUsers),
         {
-          id,
           email,
           password,
           name: `${firstName} ${lastName}`

@@ -83,8 +83,8 @@ const JWTRegister = ({ ...others }) => {
                 initialValues={{
                     email: '',
                     password: '',
-                    firstName: '',
-                    lastName: '',
+                    first_name: '',
+                    last_name: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -93,7 +93,7 @@ const JWTRegister = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        await register(values.email, values.password, values.firstName, values.lastName);
+                        await register(values.email, values.password, values.first_name, values.last_name);
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
@@ -131,9 +131,9 @@ const JWTRegister = ({ ...others }) => {
                                     fullWidth
                                     label="First Name"
                                     margin="normal"
-                                    name="firstName"
+                                    name="first_name"
                                     type="text"
-                                    value={values.firstName}
+                                    value={values.first_name}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
@@ -144,9 +144,9 @@ const JWTRegister = ({ ...others }) => {
                                     fullWidth
                                     label="Last Name"
                                     margin="normal"
-                                    name="lastName"
+                                    name="last_name"
                                     type="text"
-                                    value={values.lastName}
+                                    value={values.last_name}
                                     onBlur={handleBlur}
                                     onChange={handleChange}
                                     sx={{ ...theme.typography.customInput }}
