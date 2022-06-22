@@ -22,9 +22,15 @@ const Input = styled('input')({
 // ==============================|| PROFILE 3 - PROFILE ||============================== //
 
     const WorkProfile = () => {
-      const [img, setImg] = useState();
+      const [img, setImg] = useState(); handleChange
+      const [disciplined, setDisciplined] = React.useState(false);
+      const [handleChange, setHandleChange] = React.useState(false);
+      const [valueForeignPractice, setValueForeignPractice] = React.useState('no');
+      const [valuePrivatePractice, setValuePrivatePractice] = React.useState('no');
+      const [foreignPractice, setForeignPractice] = React.useState(false);
+      const [privatePractice, setPrivatePractice] = React.useState(false);
+
       const { user } = useAuth();
-      console.log(user.first_name)
       const [data, setData] = useState({
         title: "",
         description: "",
@@ -34,7 +40,13 @@ const Input = styled('input')({
       const [file] = e.target.files;
       setImg(URL.createObjectURL(file));
     };
-  
+    const doSubmit = async (e) => {
+      e.preventDefault();
+      const response = await API.createMyModelEntry(data);
+      if (response.status === 400) {
+          setErrors(response.data);
+      }
+    
     const [errors, setErrors] = useState({
         title: "",
         description: "",
@@ -47,85 +59,90 @@ const Input = styled('input')({
       newData["image_url"] = e.target.files[0];
       setData(newData);
     };
+  const changeDisciplined = (e) => {
+    console.log('save form')
+    console.log(e)
+    setValueDisciplined(e)
+    if (e === 'yes') {
+      setDisciplined(true);
+    } else {
+      setDisciplined(false);
+    }
+  };
 
-    const doSubmit = async (e) => {
-      e.preventDefault();
-      const response = await API.createMyModelEntry(data);
-      if (response.status === 400) {
-          setErrors(response.data);
-      }
-    };
+  const changePrivatePractice = (e) => {
+    console.log('save form')
+    console.log(e)
+    setValuePrivatePractice(e)
+    if (e === 'yes') {
+      setPrivatePractice(true);
+    } else {
+      setPrivatePractice(false);
+    }
+  };
+
+  const changeForeignPractice = (e) => {
+    console.log('save form')
+    console.log(e)
+    setValueForeignPractice(e)
+    if (e === 'yes') {
+      setForeignPractice(true);
+    } else {
+      setForeignPractice(false);
+    }
+  };
+};
   return (
     <Grid container spacing={gridSpacing}>
       <Grid item sm={6} md={4}>
-        <SubCard title="Upload Current Employer Endorsement" contentSX={{ textAlign: 'center' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-      <label htmlFor="icon-button-file">
-      {/* <Avatar alt="User 1" src={img ? img : Avatar1  } sx={{ width: 100, height: 100 }} /> */}
-        <Input onChange={onImageChange} accept="image/*" id="icon-button-file" type="file" />
-        <IconButton color="primary" aria-label="upload picture" component="span">
-          <PhotoCamera />
-        </IconButton>
-      </label>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="subtitle2" align="center">
-                Upload/Change Your Profile Image
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-            <Stack direction="row" alignItems="center" spacing={2}>
-      <label htmlFor="contained-button-file">
-        <Button variant="contained"
-                       type="submit"
-                       onClick={(e) => doSubmit(e)} 
-        component="span"
-        >
-          Upload
-        </Button>
-      </label>
-    </Stack>
-            </Grid>
-          </Grid>
-        </SubCard>
-        <SubCard title="Upload Character Reference" sx={{ mt: 5 }} contentSX={{ textAlign: 'center' }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-      <label htmlFor="icon-button-file">
-      {/* <Avatar alt="User 1" src={img ? img : Avatar1  } sx={{ width: 100, height: 100 }} /> */}
-        <Input onChange={onImageChange} accept="image/*" id="icon-button-file" type="file" />
-        <IconButton color="primary" aria-label="upload picture" component="span">
-          <PhotoCamera />
-        </IconButton>
-      </label>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="subtitle2" align="center">
-                Upload/Change Your Profile Image
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-            <Stack direction="row" alignItems="center" spacing={2}>
-      <label htmlFor="contained-button-file">
-        <Button variant="contained"
-                       type="submit"
-                       onClick={(e) => doSubmit(e)} 
-        component="span"
-        >
-          Upload
-        </Button>
-      </label>
-    </Stack>
-            </Grid>
-          </Grid>
-        </SubCard>
+      {/* {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+      <form noValidate onSubmit={handleSubmit} {...others}> */}
+      <SubCard title="Practice Experience" contentSX={{ textAlign: 'center' }} sx={{mb:5}}>
+      <Grid item xs={12} sm={6} sx={{pb:5}}>
+        <Typography variant="h5" gutterBottom sx={{ mb: -0.5 }}>
+        Private Practice?      </Typography>
+        
+      <FormControl>
+                  <RadioGroup
+                    row
+                    aria-label="Disciplined"
+                    value={valuePrivatePractice}
+                    onChange={(e) => changePrivatePractice(e.target.value)}
+                    name="PrivatePractice-radio-buttons-group"
+                  >
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                  </RadioGroup>
+                </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+        <Typography variant="h5" gutterBottom sx={{ mb: -0.5 }}>
+        Practice outside Zimbabwe?      </Typography>
+        
+      <FormControl>
+                  <RadioGroup
+                    row
+                    aria-label="foreignPractice"
+                    value={valueForeignPractice}
+                    onChange={(e) => changeForeignPractice(e.target.value)}
+                    name="foreignPractice-radio-buttons-group"
+                  >
+                    <FormControlLabel value="yes" control={<Radio />} label="Yes" />
+                    <FormControlLabel value="no" control={<Radio />} label="No" />
+                  </RadioGroup>
+                </FormControl>
+        </Grid>  
+      </SubCard>
+      {/* </form>
+      )} */}
+
       </Grid>
       <Grid item sm={6} md={8}>
-      <WorkProfileWizard />
+      <WorkProfileWizard privatePractice={privatePractice} foreignPractice={foreignPractice}  />
       </Grid>
     </Grid>
   );
 };
+
 
 export default WorkProfile;

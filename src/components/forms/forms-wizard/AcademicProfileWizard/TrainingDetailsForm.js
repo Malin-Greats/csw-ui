@@ -67,7 +67,7 @@ export default function TrainingDetailsForm(...others) {
           inputProps={{}} 
           name="first_name"
           value={values.first_name} 
-          label="Training name" 
+          label="Academic Level" 
           fullWidth autoComplete="given-name" />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -94,7 +94,7 @@ export default function TrainingDetailsForm(...others) {
         </Grid>
         <Grid item xs={12}>
         <Button variant="contained" size="small" onClick={saveForm} sx={{ my: 3, ml: 1 }}>
-                  Save Training Details
+                  Save
                 </Button>
         </Grid>
       </Grid>

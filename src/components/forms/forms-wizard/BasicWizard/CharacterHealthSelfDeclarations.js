@@ -16,15 +16,21 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 
 export default function CharacterHealthSelfDeclarations(...others) {
   const [offence, setOffence] = React.useState(true);
-  const [disciplined, setDisciplined] = React.useState(false);
-  const [civilProceedings, setCivilProceedings] = React.useState(false);
-  const [healthCondition, setHealthCondition] = React.useState(false);
-  const [otherDeclarations, setOtherDeclarations] = React.useState(false);
   const [valueOffence, setValueOffence] = React.useState('checked');
+
+  const [disciplined, setDisciplined] = React.useState(false);
   const [valueDisciplined, setValueDisciplined] = React.useState('checked');
-  const [valueHealthCondition, setValueHealthCondition] = React.useState('checked');
+
+
+  const [civilProceedings, setCivilProceedings] = React.useState(false);
   const [valueCivilProceedings, setValueCivilProceedings] = React.useState('checked');
+
+  const [healthCondition, setHealthCondition] = React.useState(false);
+  const [valueHealthCondition, setValueHealthCondition] = React.useState('checked');
+
+  const [otherDeclarations, setOtherDeclarations] = React.useState(false);
   const [valueOtherDeclarations, setValueOtherDeclarations] = React.useState('checked');
+
   const { updatePersonalDetails } = useAuth();
 
   const saveForm = () => {

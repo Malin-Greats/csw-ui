@@ -39,11 +39,14 @@ function a11yProps(index) {
 
 // ==============================|| PROFILE 3 ||============================== //
 
-const Profile3 = () => {
+const Profile3 = (context) => {
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  
+  console.log('context.query')
+  console.log(context.query)
 
   return (
     <MainCard title="Account">
